@@ -11,11 +11,11 @@ import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
 	{
-    name: 'ignores',
+		name: 'ignores',
 		ignores: ['public', 'pnpm-lock.yaml', ...gitignore({ root: true }).ignores],
 	},
 	{
-    name: 'language options',
+		name: 'language options',
 		languageOptions: {
 			globals: {
 				...globals.browser,
@@ -32,7 +32,7 @@ export default tseslint.config(
 		...tseslint.configs.disableTypeChecked,
 	},
 	{
-    name: 'additional ts settings',
+		name: 'additional ts settings',
 		files: ['**/*.{ts,mts,tsx}'],
 		languageOptions: {
 			parserOptions: {
@@ -64,7 +64,7 @@ export default tseslint.config(
 		},
 	},
 	{
-    name: 'react',
+		name: 'react',
 		files: ['{app|src}/**/*.{ts,tsx}'],
 		...reactPlugin.configs.flat['jsx-runtime'],
 		// NOTE: https://github.com/vercel/next.js/discussions/49337#discussioncomment-5998603
@@ -76,7 +76,7 @@ export default tseslint.config(
 		plugins: {
 			'jsx-a11y': jsxA11yPlugin,
 			react: reactPlugin,
-      'react-hooks': reactHooksPlugin,
+			'react-hooks': reactHooksPlugin,
 		},
 		rules: {
 			...jsxA11yPlugin.configs.recommended.rules,
@@ -104,7 +104,7 @@ export default tseslint.config(
 		},
 	},
 	{
-    name: 'nextjs',
+		name: 'nextjs',
 		files: ['{app|src}/**/*.{ts,tsx}'],
 		plugins: {
 			'@next/next': nextPlugin,
@@ -112,15 +112,14 @@ export default tseslint.config(
 		rules: {
 			...nextPlugin.configs.recommended.rules,
 			...nextPlugin.configs['core-web-vitals'].rules,
-      '@next/next/no-img-element': 'off',
+			'@next/next/no-img-element': 'off',
 			'no-restricted-imports': [
 				'error',
 				{
 					paths: [
 						{
 							name: 'next/inmage',
-							message:
-								"Use <img>.",
+							message: 'Use <img>.',
 						},
 					],
 				},
