@@ -1,3 +1,5 @@
+'use client'
+
 import type { PropsWithChildren, RefAttributes } from 'react'
 import {
 	type ButtonProps as AriaButtonProps,
