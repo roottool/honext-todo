@@ -1,12 +1,10 @@
 import { getCookie } from 'hono/cookie'
 import { createMiddleware } from 'hono/factory'
-
 import { adminAuth } from '@/infra/firebase/serverApp'
-
-export const COOKIE_NAME = 'session' as const satisfies string
+export const SESSION_COOKIE_KEY = 'session' as const satisfies string
 
 export const authMiddleware = createMiddleware(async (c, next) => {
-	const token = getCookie(c, COOKIE_NAME)
+	const token = getCookie(c, SESSION_COOKIE_KEY)
 	if (!token) {
 		return c.json({ error: 'No token provided' }, 400)
 	}
