@@ -1,3 +1,7 @@
+import { type FirebaseApp, getApps, initializeApp } from 'firebase/app'
+import { getAuth } from 'firebase/auth'
+import { getFirestore } from 'firebase/firestore'
+import { getStorage } from 'firebase/storage'
 import { z } from 'zod'
 
 const clientEnvSchema = z.object({
@@ -36,23 +40,16 @@ export const firebaseConfig = {
 	appId: string
 }
 
-const serverEnvSchema = z.object({
-	NEXT_PUBLIC_FIREBASE_PROJECT_ID: z.string().min(1),
-	FIREBASE_CLIENT_EMAIL: z.string().min(1).email(),
-	FIREBASE_PRIVATE_KEY: z.string().min(1),
-})
-const validateServerEnv = serverEnvSchema.parse({
-	NEXT_PUBLIC_FIREBASE_PROJECT_ID:
-		process.env['NEXT_PUBLIC_FIREBASE_PROJECT_ID'],
-	FIREBASE_CLIENT_EMAIL: process.env['FIREBASE_CLIENT_EMAIL'],
-	FIREBASE_PRIVATE_KEY: process.env['FIREBASE_PRIVATE_KEY'],
-})
-export const firebaseAdminConfig = {
-	projectId: validateServerEnv.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-	clientEmail: validateServerEnv.FIREBASE_CLIENT_EMAIL,
-	privateKey: validateServerEnv.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
-} as const satisfies {
-	projectId: string
-	clientEmail: string
-	privateKey: string
+export const createFirebaseApp = (): FirebaseApp => {
+	const firebaseApp = getApps()
+	if (firebaseApp.length <= 0) {
+		return initializeApp(firebaseConfig)
+	}
+
+	return firebaseApp[0] ?? initializeApp(firebaseConfig)
 }
+
+const firebaseApp = createFirebaseApp()
+export const auth = getAuth(firebaseApp)
+export const db = getFirestore(firebaseApp)
+export const storage = getStorage(firebaseApp)
