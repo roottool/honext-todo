@@ -18,6 +18,30 @@ hosting/.cache
 /.firebase/
 /emulator-ui/
 
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
 # Logs
 *.log
 npm-debug.log*
@@ -26,3 +50,10 @@ yarn-error.log*
 
 # Environment files (local configs)
 /.env.*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts

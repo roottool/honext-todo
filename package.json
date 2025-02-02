@@ -1,0 +1,48 @@
+{
+	"name": "honext-todo",
+	"version": "0.1.0",
+	"author": {
+		"name": "roottool"
+	},
+	"license": "UNLICENSED",
+	"private": true,
+	"scripts": {
+		"dev": "next dev --turbopack",
+		"build": "next build",
+		"start": "next start",
+		"lint": "run-s -c lint:*",
+		"lint:prettier": "prettier --check .",
+		"lint:eslint": "eslint --color --max-warnings=0 .",
+		"format": "prettier --cache --write .",
+		"fix": "run-s -c fix:* format",
+		"fix:eslint": "eslint --color --fix .",
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"firebase": "^11.2.0",
+		"firebase-admin": "^13.0.2",
+		"next": "^15.1.6",
+		"react": "^19.0.0",
+		"react-dom": "^19.0.0",
+		"zod": "^3.24.1"
+	},
+	"devDependencies": {
+		"@eslint/eslintrc": "^3.2.0",
+		"@next/eslint-plugin-next": "^15.1.6",
+		"@trivago/prettier-plugin-sort-imports": "^5.2.2",
+		"@types/node": "^22.13.0",
+		"@types/react": "^19.0.8",
+		"@types/react-dom": "^19.0.3",
+		"eslint": "^9.19.0",
+		"eslint-config-flat-gitignore": "^2.0.0",
+		"eslint-import-resolver-typescript": "^3.7.0",
+		"eslint-plugin-jsx-a11y": "^6.10.2",
+		"eslint-plugin-react-hooks": "^5.1.0",
+		"eslint-plugin-unused-imports": "^4.1.4",
+		"globals": "^15.14.0",
+		"npm-run-all2": "^7.0.2",
+		"prettier": "^3.4.2",
+		"typescript": "^5.7.3",
+		"typescript-eslint": "^8.22.0"
+	}
+}
