@@ -1,4 +1,10 @@
 {
+	"name": "honext-todo",
+	"version": "0.1.0",
+	"author": {
+		"name": "roottool"
+	},
+	"license": "UNLICENSED",
 	"private": true,
 	"scripts": {
 		"dev": "next dev --turbopack",
