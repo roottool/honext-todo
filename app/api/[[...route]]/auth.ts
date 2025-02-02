@@ -21,6 +21,7 @@ const app = new Hono().post(
 			setCookie(c, 'session', idToken, {
 				httpOnly: true,
 				secure: process.env.NODE_ENV === 'production',
+				sameSite: 'Strict',
 				path: '/',
 				// 有効期間は1日。
 				maxAge: 60 * 60 * 24,
