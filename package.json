@@ -19,6 +19,7 @@
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
+		"@hono/zod-validator": "^0.4.2",
 		"firebase": "^11.2.0",
 		"firebase-admin": "^13.0.2",
 		"hono": "^4.6.20",
