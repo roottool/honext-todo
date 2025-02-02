@@ -1,16 +1,16 @@
-import { zValidator } from '@hono/zod-validator'
 import { Hono } from 'hono'
 import { setCookie } from 'hono/cookie'
 import { z } from 'zod'
 
 import admin from '@/infra/firebase/serverApp'
+import { requestValidator } from '@/infra/hono/validator'
 
 const auth = admin.auth()
 const app = new Hono().post(
 	'/login',
-	zValidator('json', z.object({ idToken: z.string().jwt() })),
+	requestValidator('json', z.object({ idToken: z.string().jwt() })),
 	async (c) => {
-		const { idToken } = await c.req.json<{ idToken: string }>()
+		const { idToken } = c.req.valid('json')
 		if (!idToken) {
 			return c.json({ error: 'No ID token provided' }, 400)
 		}
