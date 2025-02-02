@@ -20,7 +20,9 @@ export const metadata = {
 export default function RootLayout({ children }: PropsWithChildren) {
 	return (
 		<html lang="ja" className={`${notoSansJp.variable} antialiased`}>
-			<body className="font-display text-black max-w-5xl py-5 mx-auto">{children}</body>
+			<body className="font-display text-black max-w-5xl py-5 mx-auto">
+				{children}
+			</body>
 		</html>
 	)
 }
