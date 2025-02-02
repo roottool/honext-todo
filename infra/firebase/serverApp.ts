@@ -12,7 +12,7 @@ const validateServerEnv = serverEnvSchema.parse({
 	FIREBASE_CLIENT_EMAIL: process.env['FIREBASE_CLIENT_EMAIL'],
 	FIREBASE_PRIVATE_KEY: process.env['FIREBASE_PRIVATE_KEY'],
 })
-export const firebaseAdminConfig = {
+const firebaseAdminConfig = {
 	projectId: validateServerEnv.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
 	clientEmail: validateServerEnv.FIREBASE_CLIENT_EMAIL,
 	privateKey: validateServerEnv.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
