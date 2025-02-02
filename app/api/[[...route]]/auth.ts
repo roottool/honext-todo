@@ -1,11 +1,10 @@
-import { Hono } from 'hono'
-import { setCookie } from 'hono/cookie'
+import { Hono } from 'hono';
+import { setCookie } from 'hono/cookie';
 import { z } from 'zod'
 
-import admin from '@/infra/firebase/serverApp'
+import { adminAuth } from '@/infra/firebase/serverApp'
 import { requestValidator } from '@/infra/hono/validator'
 
-const auth = admin.auth()
 const COOKIE_NAME = 'session' as const satisfies string
 const app = new Hono().post(
 	'/login',
@@ -17,7 +16,7 @@ const app = new Hono().post(
 		}
 
 		try {
-			const decodedToken = await auth.verifyIdToken(idToken)
+			const decodedToken = await adminAuth.verifyIdToken(idToken)
 
 			setCookie(c, COOKIE_NAME, idToken, {
 				httpOnly: true,
