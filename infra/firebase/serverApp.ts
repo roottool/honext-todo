@@ -1,4 +1,5 @@
 import * as admin from 'firebase-admin'
+import type { ServiceAccount } from 'firebase-admin'
 import { z } from 'zod'
 
 const serverEnvSchema = z.object({
@@ -16,21 +17,11 @@ const firebaseAdminConfig = {
 	projectId: validateServerEnv.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
 	clientEmail: validateServerEnv.FIREBASE_CLIENT_EMAIL,
 	privateKey: validateServerEnv.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
-} as const satisfies {
-	projectId: string
-	clientEmail: string
-	privateKey: string
-}
+} as const satisfies ServiceAccount
 
-if (!admin.apps.length) {
+const firebaseAdmin =
+	admin.apps[0] ??
 	admin.initializeApp({
-		credential: admin.credential.cert({
-			projectId: firebaseAdminConfig.projectId,
-			clientEmail: firebaseAdminConfig.clientEmail,
-			privateKey: firebaseAdminConfig.privateKey,
-		}),
+		credential: admin.credential.cert(firebaseAdminConfig),
 	})
-}
-
-export const adminAuth = admin.auth()
-export default admin
+export const adminAuth = firebaseAdmin.auth()

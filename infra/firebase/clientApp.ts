@@ -1,4 +1,9 @@
-import { type FirebaseApp, getApps, initializeApp } from 'firebase/app'
+import {
+	type FirebaseApp,
+	type FirebaseOptions,
+	getApps,
+	initializeApp,
+} from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 import { getStorage } from 'firebase/storage'
@@ -31,21 +36,10 @@ export const firebaseConfig = {
 	storageBucket: validateClientEnv.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
 	messagingSenderId: validateClientEnv.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
 	appId: validateClientEnv.NEXT_PUBLIC_FIREBASE_APP_ID,
-} as const satisfies {
-	apiKey: string
-	authDomain: string
-	projectId: string
-	storageBucket: string
-	messagingSenderId: string
-	appId: string
-}
+} as const satisfies FirebaseOptions
 
-export const createFirebaseApp = (): FirebaseApp => {
+const createFirebaseApp = (): FirebaseApp => {
 	const firebaseApp = getApps()
-	if (firebaseApp.length <= 0) {
-		return initializeApp(firebaseConfig)
-	}
-
 	return firebaseApp[0] ?? initializeApp(firebaseConfig)
 }
 
