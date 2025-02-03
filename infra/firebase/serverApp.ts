@@ -1,5 +1,6 @@
 import * as admin from 'firebase-admin'
 import type { ServiceAccount } from 'firebase-admin'
+import 'server-only'
 import { z } from 'zod'
 
 const serverEnvSchema = z.object({

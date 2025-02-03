@@ -1,3 +1,4 @@
+import 'client-only'
 import {
 	type FirebaseApp,
 	type FirebaseOptions,
