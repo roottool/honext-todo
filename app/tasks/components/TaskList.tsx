@@ -44,7 +44,7 @@ export default async function TaskList() {
 					Due: {format(new Date(dueDate), 'yyyy/MM/dd')}
 				</p>
 			</div>
-			<CheckForm {...{ id, dueDate, isCompleted }} />
+			<CheckForm {...{ id, isCompleted }} />
 		</div>
 	))
 }
