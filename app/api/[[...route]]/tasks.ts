@@ -35,7 +35,7 @@ const app = new Hono().get('/', async (c) => {
 	}
 
 	try {
-		const queryRef = adminDb.collection(COLLECTION_NAME).where('uid', '==', uid)
+		const queryRef = adminDb.collection(COLLECTION_NAME).where('uid', '==', uid).orderBy('dueDate')
 		const querySnapShot = await queryRef.get()
 		const tasks = querySnapShot.docs.map((doc) => {
 			const data = doc.data() as QuerySnapshotSchema
