@@ -1,4 +1,3 @@
-import type { Timestamp } from 'firebase-admin/firestore'
 import { Hono } from 'hono'
 import { getCookie } from 'hono/cookie'
 
