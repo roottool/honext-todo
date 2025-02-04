@@ -27,7 +27,7 @@ const app = new Hono().post(
 				maxAge: 60 * 60 * 24,
 			})
 
-			return c.json({ uid: decodedToken.uid, email: decodedToken.email })
+			return c.json({ uid: decodedToken.uid })
 		} catch (error) {
 			console.error(error)
 			return c.json({ error: 'Invalid ID token' }, 401)

@@ -1,8 +1,7 @@
-import type { Timestamp } from 'firebase-admin/firestore'
 import { Hono } from 'hono'
 import { getCookie } from 'hono/cookie'
 
-import type { TaskSchema } from '@/app/tasks/schema'
+import type { CreateTaskSchema } from '@/app/tasks/schema'
 import { SESSION_COOKIE_KEY } from '@/infra/cookie'
 import {
 	COLLECTION_NAME,
@@ -10,8 +9,9 @@ import {
 	verifyIdToken,
 } from '@/infra/firebase/serverApp'
 
-interface QuerySnapshotSchema extends Omit<TaskSchema, 'dueDate'> {
+interface QuerySnapshotSchema extends Omit<CreateTaskSchema, 'dueDate'> {
 	dueDate: number
+	isCompleted: boolean
 }
 
 const app = new Hono().get('/', async (c) => {
@@ -36,13 +36,16 @@ const app = new Hono().get('/', async (c) => {
 	}
 
 	try {
-		const queryRef = adminDb.collection(COLLECTION_NAME).where('uid', '==', uid)
+		const queryRef = adminDb
+			.collection(COLLECTION_NAME)
+			.where('uid', '==', uid)
+			.orderBy('dueDate')
 		const querySnapShot = await queryRef.get()
 		const tasks = querySnapShot.docs.map((doc) => {
 			const data = doc.data() as QuerySnapshotSchema
 			return {
+				...data,
 				id: doc.id,
-				taskName: data.taskName,
 				// Firestoreはナノ秒で保持するため、ミリ秒なDate型向けに変換する。
 				dueDate: data.dueDate * 1000,
 			}

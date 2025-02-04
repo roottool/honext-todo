@@ -34,7 +34,7 @@ export default function LoginButton({ children }: { children: string }) {
 	)
 }
 
-// TODO: カスタムフック化したい
+// TODO: Server Action化できそう。
 const login = async () => {
 	try {
 		const { user } = await signInWithGoogle()
