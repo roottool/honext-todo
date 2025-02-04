@@ -2,11 +2,10 @@ import { Hono } from 'hono'
 import { setCookie } from 'hono/cookie'
 import { z } from 'zod'
 
-import admin from '@/infra/firebase/serverApp'
+import { SESSION_COOKIE_KEY } from '@/infra/cookie'
+import { adminAuth } from '@/infra/firebase/serverApp'
 import { requestValidator } from '@/infra/hono/validator'
 
-const auth = admin.auth()
-const COOKIE_NAME = 'session' as const satisfies string
 const app = new Hono().post(
 	'/login',
 	requestValidator('json', z.object({ idToken: z.string().jwt() })),
@@ -17,9 +16,9 @@ const app = new Hono().post(
 		}
 
 		try {
-			const decodedToken = await auth.verifyIdToken(idToken)
+			const decodedToken = await adminAuth.verifyIdToken(idToken)
 
-			setCookie(c, COOKIE_NAME, idToken, {
+			setCookie(c, SESSION_COOKIE_KEY, idToken, {
 				httpOnly: true,
 				secure: process.env.NODE_ENV === 'production',
 				sameSite: 'Strict',
