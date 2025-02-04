@@ -23,7 +23,10 @@ export default async function TaskList() {
 		},
 	}).catch((error) => {
 		console.error(error)
-		return { ok: false } as const
+		return {
+			ok: false,
+			error: 'Tasks could not be fetched',
+		} as const
 	})
 	if (!res.ok) {
 		return (
