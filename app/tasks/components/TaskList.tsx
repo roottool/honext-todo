@@ -2,14 +2,12 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 import { format } from 'date-fns'
-import type { InferResponseType } from 'hono'
 
 import CheckForm from '@/app/tasks/components/CheckForm'
 import { SESSION_COOKIE_KEY } from '@/infra/cookie'
 import { fetcher } from '@/infra/fetcher'
-import { client } from '@/infra/hono/client'
+import { type GetResponse, client } from '@/infra/hono/client'
 
-type ResType = InferResponseType<typeof client.api.tasks.$get>
 export default async function TaskList() {
 	const idToken = (await cookies()).get(SESSION_COOKIE_KEY)?.value
 	if (!idToken) {
@@ -17,7 +15,7 @@ export default async function TaskList() {
 	}
 
 	const url = client.api.tasks.$url()
-	const res = await fetcher<ResType>(url, {
+	const res = await fetcher<GetResponse>(url, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
@@ -35,7 +33,7 @@ export default async function TaskList() {
 		)
 	}
 
-	return res.tasks.map(({ id, taskName, dueDate }) => (
+	return res.tasks.map(({ id, taskName, dueDate, isCompleted }) => (
 		<div key={id} className="flex gap-2 justify-between py-2">
 			<div>
 				<p className="font-bold">{taskName}</p>
@@ -43,7 +41,7 @@ export default async function TaskList() {
 					Due: {format(new Date(dueDate), 'yyyy/MM/dd')}
 				</p>
 			</div>
-			<CheckForm />
+			<CheckForm {...{ id, dueDate, isCompleted }} />
 		</div>
 	))
 }

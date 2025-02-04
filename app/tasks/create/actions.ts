@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation'
 import { parseWithZod } from '@conform-to/zod'
 import { getUnixTime } from 'date-fns'
 
-import { taskSchema } from '@/app/tasks/schema'
+import { createTaskSchema } from '@/app/tasks/schema'
 import { SESSION_COOKIE_KEY } from '@/infra/cookie'
 import {
 	COLLECTION_NAME,
@@ -16,7 +16,7 @@ import {
 
 export async function createTask(_: unknown, formData: FormData) {
 	const submission = parseWithZod(formData, {
-		schema: taskSchema,
+		schema: createTaskSchema,
 	})
 	if (submission.status !== 'success') {
 		return submission.reply()

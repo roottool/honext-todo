@@ -21,13 +21,13 @@ import { parseWithZod } from '@conform-to/zod'
 import { PrimaryButton } from '@/app/components/Button'
 import { createTask } from '@/app/tasks/create/actions'
 import CalendarPopover from '@/app/tasks/create/components/CalendarPopover'
-import { taskSchema } from '@/app/tasks/schema'
+import { createTaskSchema } from '@/app/tasks/schema'
 
 export default function TaskForm() {
 	const [_, action] = useActionState(createTask, undefined)
 	const [form, fields] = useForm({
 		onValidate({ formData }) {
-			return parseWithZod(formData, { schema: taskSchema })
+			return parseWithZod(formData, { schema: createTaskSchema })
 		},
 	})
 	return (

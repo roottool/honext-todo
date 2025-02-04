@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
-export const taskSchema = z.object({
+export const createTaskSchema = z.object({
 	taskName: z.string().trim().min(1),
 	dueDate: z.coerce.date(),
 })
-export type TaskSchema = z.infer<typeof taskSchema>
+export type CreateTaskSchema = z.infer<typeof createTaskSchema>
