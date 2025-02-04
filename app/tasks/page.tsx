@@ -1,5 +1,5 @@
-import TaskList from '@/app/tasks/_components/TaskList'
-import { LinkButton } from '@/components/Button'
+import { LinkButton } from '@/app/components/Button'
+import TaskList from '@/app/tasks/components/TaskList'
 
 export default function TasksPage() {
 	return (

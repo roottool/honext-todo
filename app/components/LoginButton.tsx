@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 
 import { useState } from 'react'
 
-import { SecondaryButton } from '@/components/Button'
+import { SecondaryButton } from '@/app/components/Button'
 import { signInWithGoogle } from '@/infra/firebase/auth'
 
 export default function LoginButton({ children }: { children: string }) {
