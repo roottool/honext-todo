@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+@plugin "tailwindcss-react-aria-components";
+
 @theme {
 	--font-display: var(--font-noto-sans-jp);
 
