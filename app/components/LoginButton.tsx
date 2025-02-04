@@ -23,6 +23,7 @@ export default function LoginButton({ children }: { children: string }) {
 
 	return (
 		<SecondaryButton
+		className='w-full'
 			isPending={isLoading}
 			onPress={() => {
 				void handleLoginWithPress()
