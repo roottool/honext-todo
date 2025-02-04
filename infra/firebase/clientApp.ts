@@ -6,7 +6,6 @@ import {
 	initializeApp,
 } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
-import { getFirestore } from 'firebase/firestore'
 import { z } from 'zod'
 
 const clientEnvSchema = z.object({
@@ -45,4 +44,3 @@ const createFirebaseApp = (): FirebaseApp => {
 
 const firebaseApp = createFirebaseApp()
 export const auth = getAuth(firebaseApp)
-export const db = getFirestore(firebaseApp)

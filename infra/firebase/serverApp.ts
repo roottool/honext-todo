@@ -25,4 +25,19 @@ const firebaseAdmin =
 	admin.initializeApp({
 		credential: admin.credential.cert(firebaseAdminConfig),
 	})
-export const adminAuth = firebaseAdmin.auth()
+
+export const adminDb = firebaseAdmin.firestore()
+export const COLLECTION_NAME = 'tasks' as const satisfies string
+
+const adminAuth = firebaseAdmin.auth()
+export const verifyIdToken = async (token: string | undefined) => {
+	if (!token) {
+		throw new Error('No token provided')
+	}
+
+	try {
+		return await adminAuth.verifyIdToken(token)
+	} catch {
+		throw new Error('Invalid ID token')
+	}
+}

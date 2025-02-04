@@ -1,45 +1,63 @@
+import type { Timestamp } from 'firebase-admin/firestore'
 import { Hono } from 'hono'
 import { getCookie } from 'hono/cookie'
 
+import type { TaskSchema } from '@/app/tasks/schema'
 import { SESSION_COOKIE_KEY } from '@/infra/cookie'
-import { adminAuth } from '@/infra/firebase/serverApp'
+import {
+	COLLECTION_NAME,
+	adminDb,
+	verifyIdToken,
+} from '@/infra/firebase/serverApp'
 
-const app = new Hono()
-	.get('/', async (c) => {
-		const token = getCookie(c, SESSION_COOKIE_KEY)
+interface QuerySnapshotSchema extends Omit<TaskSchema, 'dueDate'> {
+	dueDate: number
+}
 
-		try {
-			const decodeIdToken = await verifyIdToken(token)
-			return c.json({ ok: true, uid: decodeIdToken.uid } as const)
-		} catch (error) {
-			console.error(error)
-			return c.json({ ok: false, error: 'Invalid ID token' } as const, 401)
-		}
-	})
-	.post('/create', async (c) => {
-		const token = getCookie(c, SESSION_COOKIE_KEY)
-		try {
-			await verifyIdToken(token)
-		} catch (error) {
-			return error instanceof Error
-				? c.json({ ok: false, error: error.message } as const, 401)
-				: c.json({ ok: false, error: 'Invalid ID token' } as const, 401)
-		}
+const app = new Hono().get('/', async (c) => {
+	const token = getCookie(c, SESSION_COOKIE_KEY)
 
-		return c.json({}, 201)
-	})
-
-// Hono MiddlewareではadminAuth.verifyIdToken()をRoute Handler上で動かせないので、関数に切り出して使用する。
-const verifyIdToken = async (token: string | undefined) => {
-	if (!token) {
-		throw new Error('No token provided')
+	let uid: string
+	try {
+		const decodedIdToken = await verifyIdToken(token)
+		uid = decodedIdToken.uid
+	} catch (error) {
+		console.error(error)
+		return c.json(
+			{
+				ok: false,
+				error: error instanceof Error ? error.message : 'Invalid ID token',
+			} as const,
+			401,
+		)
+	}
+	if (!uid) {
+		return c.json({ ok: false, error: 'Invalid ID token' } as const, 401)
 	}
 
 	try {
-		return await adminAuth.verifyIdToken(token)
-	} catch {
-		throw new Error('Invalid ID token')
+		const queryRef = adminDb.collection(COLLECTION_NAME).where('uid', '==', uid)
+		const querySnapShot = await queryRef.get()
+		const tasks = querySnapShot.docs.map((doc) => {
+			const data = doc.data() as QuerySnapshotSchema
+			return {
+				id: doc.id,
+				taskName: data.taskName,
+				// Firestoreはナノ秒で保持するため、ミリ秒なDate型向けに変換する。
+				dueDate: data.dueDate * 1000,
+			}
+		})
+		return c.json({ ok: true, tasks } as const)
+	} catch (error) {
+		console.error(error)
+		return c.json(
+			{
+				ok: false,
+				error: 'Tasks could not be fetched',
+			} as const,
+			400,
+		)
 	}
-}
+})
 
 export default app
