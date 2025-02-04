@@ -9,7 +9,7 @@ import {
 import { twMerge } from 'tailwind-merge'
 
 const DEFAULT_CLASSNAME =
-	'font-bold py-3 rounded-xl w-full cursor-pointer' as const satisfies string
+	'font-bold px-4 py-3 rounded-xl cursor-pointer' as const satisfies string
 
 interface ButtonProps
 	extends Omit<AriaButtonProps, 'className'>,
