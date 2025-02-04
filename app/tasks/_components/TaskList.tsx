@@ -1,10 +1,12 @@
-import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
+
+
 
 import type { InferResponseType } from 'hono'
 
+import { SESSION_COOKIE_KEY } from '@/infra/cookie'
 import { fetcher } from '@/infra/fetcher'
-import { SESSION_COOKIE_KEY } from '@/infra/hono/authMiddleware'
 import { client } from '@/infra/hono/client'
 
 type ResType = InferResponseType<typeof client.api.tasks.$get>
@@ -19,13 +21,20 @@ export default async function TaskList() {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
-			Cookie: `session=${idToken}`,
+			Cookie: `${SESSION_COOKIE_KEY}=${idToken}`,
 		},
 	})
+	if (!res.ok) {
+		return (
+			<div>
+				<p>タスクを取得できませんでした。</p>
+			</div>
+		)
+	}
 
 	return (
 		<div>
-			<p>{res.taskList}</p>
+			<p>{res.uid}</p>
 		</div>
 	)
 }
