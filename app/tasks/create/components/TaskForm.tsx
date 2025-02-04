@@ -24,9 +24,8 @@ import CalendarPopover from '@/app/tasks/create/components/CalendarPopover'
 import { taskSchema } from '@/app/tasks/schema'
 
 export default function TaskForm() {
-	const [lastResult, action] = useActionState(createTask, undefined)
+	const [_, action] = useActionState(createTask, undefined)
 	const [form, fields] = useForm({
-		lastResult,
 		onValidate({ formData }) {
 			return parseWithZod(formData, { schema: taskSchema })
 		},
