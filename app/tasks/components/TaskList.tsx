@@ -35,10 +35,6 @@ export default async function TaskList() {
 		)
 	}
 
-	res.tasks.forEach((task) => {
-		console.log(task)
-		console.log(typeof task.dueDate)
-	})
 	return res.tasks.map(({ id, taskName, dueDate }) => (
 		<div key={id} className="flex gap-2 justify-between py-2">
 			<div>
