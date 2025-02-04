@@ -1,7 +1,7 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-import { SESSION_COOKIE_KEY } from '@/infra/hono/authMiddleware'
+import { SESSION_COOKIE_KEY } from '@/infra/cookie'
 
 export function middleware(req: NextRequest) {
 	const token = req.cookies.get(SESSION_COOKIE_KEY)?.value

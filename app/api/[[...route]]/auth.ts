@@ -2,8 +2,8 @@ import { Hono } from 'hono'
 import { setCookie } from 'hono/cookie'
 import { z } from 'zod'
 
+import { SESSION_COOKIE_KEY } from '@/infra/cookie'
 import { adminAuth } from '@/infra/firebase/serverApp'
-import { SESSION_COOKIE_KEY } from '@/infra/hono/authMiddleware'
 import { requestValidator } from '@/infra/hono/validator'
 
 const app = new Hono().post(
