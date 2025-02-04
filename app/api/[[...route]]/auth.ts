@@ -3,7 +3,7 @@ import { setCookie } from 'hono/cookie'
 import { z } from 'zod'
 
 import { SESSION_COOKIE_KEY } from '@/infra/cookie'
-import { adminAuth } from '@/infra/firebase/serverApp'
+import { verifyIdToken } from '@/infra/firebase/serverApp'
 import { requestValidator } from '@/infra/hono/validator'
 
 const app = new Hono().post(
@@ -16,7 +16,7 @@ const app = new Hono().post(
 		}
 
 		try {
-			const decodedToken = await adminAuth.verifyIdToken(idToken)
+			const decodedToken = await verifyIdToken(idToken)
 
 			setCookie(c, SESSION_COOKIE_KEY, idToken, {
 				httpOnly: true,
