@@ -23,6 +23,7 @@
 		"@conform-to/zod": "^1.2.2",
 		"@hono/zod-validator": "^0.4.2",
 		"client-only": "^0.0.1",
+		"date-fns": "^4.1.0",
 		"firebase": "^11.2.0",
 		"firebase-admin": "^13.0.2",
 		"hono": "^4.6.20",
