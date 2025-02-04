@@ -21,6 +21,9 @@ export default async function TaskList() {
 			'Content-Type': 'application/json',
 			Cookie: `${SESSION_COOKIE_KEY}=${idToken}`,
 		},
+	}).catch((error) => {
+		console.error(error)
+		return { ok: false } as const
 	})
 	if (!res.ok) {
 		return (
